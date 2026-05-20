@@ -1,0 +1,60 @@
+import random
+
+
+def generate_random_event():
+    event_names = [
+        "Team Standup",
+        "Client Call",
+        "Project Review",
+        "Code Pairing",
+        "Design Session",
+        "Lunch Break",
+        "Report Update",
+        "Training Time",
+        "One-on-One",
+        "Planning Meeting"
+    ]
+    return random.choice(event_names)
+
+
+def generate_random_time():
+    hour = random.randint(8, 16)
+    minute = random.choice([0, 15, 30, 45])
+    return f"{hour:02d}:{minute:02d}"
+
+
+def build_calendar():
+    workdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
+    calendar = {}
+
+    for day in workdays:
+        events = {}
+        times = set()
+        event_count = random.randint(2, 5)
+
+        while len(times) < event_count:
+            time_label = generate_random_time()
+            if time_label in times:
+                continue
+            times.add(time_label)
+            events[time_label] = generate_random_event()
+
+        for time_label in sorted(events):
+            events[time_label] = events[time_label]
+
+        calendar[day] = {time_label: events[time_label] for time_label in sorted(events)}
+
+    return calendar
+
+
+def print_calendar(calendar):
+    for day, events in calendar.items():
+        print(day)
+        for time_label, event in events.items():
+            print(f"  {time_label} - {event}")
+        print()
+
+
+if __name__ == "__main__":
+    calendar = build_calendar()
+    print_calendar(calendar)
